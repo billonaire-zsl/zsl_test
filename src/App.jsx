@@ -16,6 +16,7 @@ const initialTask = {
   priority: 'high',
   reminderAt: '',
   estimatedDoneAt: '',
+  estimatedWorkdays: '',
   done: false,
   notified: false,
   createdAt: new Date().toISOString(),
@@ -27,6 +28,7 @@ const emptyForm = {
   priority: 'medium',
   reminderAt: '',
   estimatedDoneAt: '',
+  estimatedWorkdays: '',
 }
 
 function readTasks() {
@@ -68,6 +70,12 @@ function formatEstimate(value) {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(value))
+}
+
+function formatWorkdays(value) {
+  if (!value) return '未设置预计工作日'
+
+  return `预计需要 ${value} 个工作日`
 }
 
 function sortTasks(tasks) {
@@ -287,6 +295,18 @@ function App() {
               </label>
 
               <label>
+                <span>预计需要工作日</span>
+                <input
+                  type="number"
+                  min="0.5"
+                  step="0.5"
+                  value={form.estimatedWorkdays}
+                  onChange={(event) => updateForm('estimatedWorkdays', event.target.value)}
+                  placeholder="例如：3"
+                />
+              </label>
+
+              <label>
                 <span>提醒时间</span>
                 <input
                   type="datetime-local"
@@ -360,6 +380,7 @@ function App() {
                         <div className="task-meta">
                           <span>{formatReminder(task.reminderAt)}</span>
                           <span>预计完成：{formatEstimate(task.estimatedDoneAt)}</span>
+                          <span>{formatWorkdays(task.estimatedWorkdays)}</span>
                           <span>
                             {status === 'due'
                               ? '提醒已到'
