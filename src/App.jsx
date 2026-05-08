@@ -15,6 +15,7 @@ const initialTask = {
   note: '把最重要的一件事设成提醒，先把它完成。',
   priority: 'high',
   reminderAt: '',
+  estimatedDoneAt: '',
   done: false,
   notified: false,
   createdAt: new Date().toISOString(),
@@ -25,6 +26,7 @@ const emptyForm = {
   note: '',
   priority: 'medium',
   reminderAt: '',
+  estimatedDoneAt: '',
 }
 
 function readTasks() {
@@ -48,6 +50,17 @@ function getTaskStatus(task) {
 
 function formatReminder(value) {
   if (!value) return '未设置提醒'
+
+  return new Intl.DateTimeFormat('zh-CN', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(value))
+}
+
+function formatEstimate(value) {
+  if (!value) return '未设置预计完成时间'
 
   return new Intl.DateTimeFormat('zh-CN', {
     month: '2-digit',
@@ -281,6 +294,15 @@ function App() {
                   onChange={(event) => updateForm('reminderAt', event.target.value)}
                 />
               </label>
+
+              <label>
+                <span>预计完成时间</span>
+                <input
+                  type="datetime-local"
+                  value={form.estimatedDoneAt}
+                  onChange={(event) => updateForm('estimatedDoneAt', event.target.value)}
+                />
+              </label>
             </div>
 
             <button className="primary-button" type="submit">
@@ -337,6 +359,7 @@ function App() {
                         {task.note ? <p>{task.note}</p> : null}
                         <div className="task-meta">
                           <span>{formatReminder(task.reminderAt)}</span>
+                          <span>预计完成：{formatEstimate(task.estimatedDoneAt)}</span>
                           <span>
                             {status === 'due'
                               ? '提醒已到'
