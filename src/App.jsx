@@ -15,7 +15,7 @@ const initialTask = {
   note: '把最重要的一件事设成提醒，先把它完成。',
   priority: 'high',
   reminderAt: '',
-  estimatedDoneAt: '',
+  estimatedDoneAt: '2026-05-08T00:00',
   estimatedWorkdays: '',
   done: false,
   notified: false,
@@ -27,7 +27,7 @@ const emptyForm = {
   note: '',
   priority: 'medium',
   reminderAt: '',
-  estimatedDoneAt: '',
+  estimatedDoneAt: '2026-05-08T00:00',
   estimatedWorkdays: '',
 }
 
